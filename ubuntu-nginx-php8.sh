@@ -13,7 +13,7 @@ sudo apt install php-fpm wget unzip zip git php-common php-mysql php-cgi php-mbs
 
 sudo usermod -aG sudo $USER
 
-CONFIG_FILE=${SITE_NAME}
+CONFIG_FILE="${SITE_NAME}.conf"
 
 cat >> $CONFIG_FILE << EOF
 server {
@@ -45,8 +45,12 @@ server {
 }
 EOF
 
-sudo unlink /etc/nginx/sites-enabled/default
+if [ -f /etc/nginx/sites-enabled/default ];
+  then sudo rm /etc/nginx/sites-enabled/default; 
+fi
+
 #sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/${SITE_NAME}
+
 sudo cp ./${SITE_NAME} /etc/nginx/sites-available/${SITE_NAME}
 sudo ln -s /etc/nginx/sites-available/${SITE_NAME} /etc/nginx/sites-enabled/
 
