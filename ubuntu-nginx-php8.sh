@@ -9,10 +9,9 @@ sudo apt-get install software-properties-common -y
 sudo add-apt-repository ppa:ondrej/php -y && sudo add-apt-repository ppa:ondrej/nginx -y
 sudo apt-get update 
 
-sudo apt install php-fpm git php-common php-mysql php-cgi php-mbstring php-curl php-gd php-xml php-xmlrpc php-pear php-zip curl nginx -y
+sudo apt install php-fpm wget unzip zip git php-common php-mysql php-cgi php-mbstring php-curl php-gd php-xml php-xmlrpc php-pear php-zip curl nginx -y
 
-
-#sudo touch /etc/nginx/sites-available/${SITE_NAME}
+sudo usermod -aG sudo $USER
 
 CONFIG_FILE=${SITE_NAME}
 
@@ -26,6 +25,8 @@ server {
     root /var/www/${SITE_NAME}/public;
 
     index index.php index.html index.htm;
+    error_log  /var/log/nginx/error.log;
+    access_log /var/log/nginx/access.log;
 
     location / {
         try_files $uri $uri/ /index.php?$args;
@@ -46,15 +47,14 @@ EOF
 
 sudo unlink /etc/nginx/sites-enabled/default
 #sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/${SITE_NAME}
-cp ./${SITE_NAME} /etc/nginx/sites-available/${SITE_NAME}
+sudo cp ./${SITE_NAME} /etc/nginx/sites-available/${SITE_NAME}
 sudo ln -s /etc/nginx/sites-available/${SITE_NAME} /etc/nginx/sites-enabled/
 
-mkdir /var/www/${SITE_NAME}
-mkdir /var/www/${SITE_NAME}/public
+sudo mkdir -p "/var/www/${SITE_NAME}/public"
 
-sudo chown -R ubuntu:www-data /var/www/${SITE_NAME}/
-chmod -R 750 /var/www/${SITE_NAME}/
-chmod -R g+s /var/www/${SITE_NAME}/
+sudo chown -R $USER:www-data /var/www/${SITE_NAME}/
+sudo chmod -R 750 /var/www/${SITE_NAME}/
+sudo chmod -R g+s /var/www/${SITE_NAME}/
 
 cd /var/www/${SITE_NAME}
 
@@ -64,9 +64,5 @@ sudo systemctl enable nginx
 sudo service nginx restart
 
 
-sudo php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-sudo php composer-setup.php
-sudo php -r "unlink('composer-setup.php');"
-sudo mv composer.phar /usr/local/bin/composer
-
-
+sudo wget https://getcomposer.org/download/latest-2.2.x/composer.phar -O /usr/bin/composer
+sudo chmod +x /usr/bin/composer
