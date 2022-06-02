@@ -4,6 +4,8 @@
 SITE_NAME=listapix.com.br
 
 sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get install software-properties-common
+
 sudo add-apt-repository ppa:ondrej/php -y && sudo add-apt-repository ppa:ondrej/nginx -y
 sudo apt-get update 
 
@@ -65,6 +67,6 @@ sudo service nginx restart
 sudo php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 sudo php composer-setup.php
 sudo php -r "unlink('composer-setup.php');"
-sudo sudo mv composer.phar /usr/local/bin/composer
+sudo mv composer.phar /usr/local/bin/composer
 
 
