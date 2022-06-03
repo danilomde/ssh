@@ -13,7 +13,7 @@ sudo apt-get install software-properties-common -y
 
 sudo add-apt-repository ppa:ondrej/php -y && sudo add-apt-repository ppa:ondrej/nginx -y
 sudo apt-get update 
-sudo apt install php-fpm wget unzip zip git php-common php-mysql php-cgi php-mbstring php-curl php-gd php-xml php-xmlrpc php-pear php-zip curl nginx -y
+sudo apt install php-fpm wget unzip zip git php-common php-sqlite3 php-mysql php-cgi php-mbstring php-curl php-gd php-xml php-xmlrpc php-pear php-zip curl nginx -y
 
 sudo usermod -aG sudo $USER
 
